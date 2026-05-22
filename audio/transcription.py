@@ -52,6 +52,13 @@ class Transcriber:
 def _main() -> None:
     """Standalone smoke test: transcribe a WAV file (e.g., one from
     `python -m audio.recording`). Doesn't need an API key."""
+    # Pick up .env so WHISPER_DEVICE/MODEL/LANGUAGE work from the standalone
+    # entry too, not just from main.py.
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
     if len(sys.argv) < 2:
         print("Usage: python -m audio.transcription <path.wav>")
         sys.exit(1)
